@@ -1,0 +1,91 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+	<parent>
+		<groupId>uk.org.kano.insurance-portal</groupId>
+		<artifactId>insurance-portal-parent</artifactId>
+		<version>1.0</version>
+	</parent>
+	<modelVersion>4.0.0</modelVersion>
+
+	<artifactId>insurance-portal-ear</artifactId>
+	<packaging>ear</packaging>
+
+	<name>Insruance Portal Example - EAR</name>
+
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<dependencies>
+		<dependency>
+			<groupId>uk.org.kano.insurance-portal</groupId>
+			<artifactId>insurance-portal-app</artifactId>
+			<version>1.0</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.kano.insurance-portal</groupId>
+			<artifactId>insurance-portal-rules</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+		</dependency>
+		<dependency>
+			<groupId>uk.org.kano.insurance-portal</groupId>
+			<artifactId>insurance-portal-model</artifactId>
+			<version>1.0</version>
+			<type>jar</type>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-ear-plugin</artifactId>
+				<version>2.10.1</version>
+				<configuration>
+					<applicationName>insurance-portal</applicationName>
+					<displayName>Insruance Portal Example Application</displayName>
+					<defaultLibBundleDir>lib/</defaultLibBundleDir>
+					<skinnyWars>false</skinnyWars>
+					<version>6</version>
+					<modules>
+						<webModule>
+							<groupId>uk.org.kano.insurance-portal</groupId>
+							<artifactId>insurance-portal-app</artifactId>
+							<uri>insurance-portal-app.war</uri>
+							<contextRoot>/socialtest</contextRoot>
+						</webModule>
+						<jarModule>
+							<groupId>uk.org.kano.insurance-portal</groupId>
+							<artifactId>insurance-portal-rules</artifactId>
+							<uri>insurance-portal-rules.jar</uri>
+						</jarModule>
+						<jarModule>
+							<groupId>uk.org.kano.insurance-portal</groupId>
+							<artifactId>insurance-portal-model</artifactId>
+							<uri>insurance-portal-model.jar</uri>
+						</jarModule>
+					</modules>
+					<archive>
+						<manifest>
+							<addClasspath/>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<configuration>
+					<skip>false</skip>
+				</configuration>
+			</plugin> 
+		</plugins>
+	</build>
+</project>

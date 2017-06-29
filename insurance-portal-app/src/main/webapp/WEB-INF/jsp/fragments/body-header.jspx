@@ -1,0 +1,38 @@
+<jsp:root
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:sec="http://www.springframework.org/security/tags"
+  version="2.2">
+  
+  	<div>
+  		<a id="gotocontent" href="#main" tabindex="1"><spring:message code="common.messages.gotocontent"/></a>
+  	</div>
+
+	<div id="navbar" class="navbar navbar-default" role="navigation" ng-controller="header">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="icon-bar"><jsp:text></jsp:text></span>
+				<span class="icon-bar"><jsp:text></jsp:text></span>
+				<span class="icon-bar"><jsp:text></jsp:text></span>
+			</button>
+			<a class="navbar-brand" href="${pageContext.request.contextPath}"><spring:message code="pages.index.messages.title"/></a>
+		</div>
+		<div class="navbar-collapse collapse">
+			<ul class="nav navbar-nav">
+				<sec:authorize access="!isAuthenticated()">
+					<li><a href="${pageContext.request.contextPath}/login"><spring:message code="pages.login.messages.title"/></a></li>
+					<li><a href="${pageContext.request.contextPath}/user/register"><spring:message code="pages.user.register.messages.title"/></a></li>
+				</sec:authorize>
+				<sec:authorize access="isAuthenticated()">
+					<li><a href="${pageContext.request.contextPath}/user/bind"><spring:message code="pages.user.bind.messages.title"/></a></li>
+					<!-- For managing logout - Spring only supports POST /logout when CSRF is active -->
+					<li><a id="logout" href="#" ng-click="logout($event)"><spring:message code="pages.logout.messages.title"/></a></li>
+				</sec:authorize>
+				<li><a href="${pageContext.request.contextPath}/contactus"><spring:message code="pages.contactus.messages.title"/></a></li>
+			</ul>
+		</div>
+	</div>
+
+	<div role="main" id="main"/>
+</jsp:root>
+	

@@ -1,0 +1,147 @@
+<html
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:form="http://www.springframework.org/tags/form"
+  xmlns:sec="http://www.springframework.org/security/tags"
+  ng-app="user">
+
+	<spring:message code="pages.contactus.messages.title" var="pageTitle" />
+	<jsp:directive.include file="../fragments/header.jspx" />
+	
+	<body>
+		<jsp:directive.include file="../fragments/body-header.jspx" />
+	
+		<div class="page-header">
+			<h1>${pageTitle}</h1>
+		</div>
+		
+		
+		<div class="container" ng-controller="contactus" >
+		
+			<!-- Anonymous contact us should rely on user provided info -->
+			<sec:authorize access="isAnonymous()">
+				<div class="row">
+					<div class="col-xs-12 col-xs-offset-0 col-sm-6 col-sm-offset-3 col-md-4 col-md-offset-4 col-lg-4 col-lg-offset-4">
+						<div class="panel panel-default" ng-show="!formSubmitted">
+							<div class="panel-heading">
+								<spring:message code="pages.contactus.messages.heading"/>
+							</div>
+							<div class="panel-body">
+			
+								<form name="contactusForm" class="form-horizontal" autocomplete="on" novalidate="novalidate">									
+									<!-- The social contact buttons -->
+									<div class="form-group">
+										<div class="col-xs-12">
+											<a target="_blank" href="https://www.facebook.com/messages/xxx?msg_prefill=Hi..." class="btn btn-block btn-social btn-facebook"><span class="fa fa-facebook"><jsp:text></jsp:text></span><spring:message code="social.contact.facebook" /></a>
+										</div>
+									</div>
+									
+									<div class="form-divider">
+										<hr/><div><span><spring:message code="pages.contactus.messages.manualfill" /></span></div>
+									</div>
+									
+									<div class="form-group has-feedback" id="form-group-name"  ng-class="getValidationState(contactusForm, 'name')">
+										<div class="col-xs-12">
+											<label class="control-label" for="name"><spring:message code="pages.contactus.messages.name" />:</label>
+										</div>
+										<div class="col-xs-12">
+											<spring:message code="pages.contactus.messages.name_field" var="namePlaceholder" />
+											<input id="name" name="name" type="text" class="form-control" autocomplete="name" placeholder="${namePlaceholder}" required="required" ng-model="contactus.name" ng-attr-aria-describedby="{{contactusForm.name.describedby}}" />
+											<span class="glyphicon form-control-feedback" ng-class="getGlyphState(contactusForm, 'name')" aria-hidden="true"><jsp:text></jsp:text></span>
+											<div ng-show="contactusForm.$submitted || contactusForm.name.$touched" class="help-block">
+												<span ng-show="contactusForm.name.$error.required"><spring:message code="validation.field.required" /></span>
+											</div>
+										</div>
+									</div>
+			
+									<div class="form-group" id="form-group-contactpref" ng-class="getValidationState(contactusForm, 'contactpref')">
+										<div class="col-xs-12">
+											<label class="control-label" for="contactpref"><spring:message code="pages.contactus.messages.contactpref" />:</label>
+										</div>
+										<div class="col-xs-12">
+											<select name="contactpref" class="form-control" ng-model="contactus.contactpref" required="required">
+												<option value="" selected="selected" disabled="disabled" hidden="hidden"><spring:message code="pages.contactus.messages.contactpref_field"/></option>
+												<option value="phone"><spring:message code="pages.contactus.messages.contactpref.phone"/></option>
+												<option value="email"><spring:message code="pages.contactus.messages.contactpref.email"/></option>
+											</select>
+											<div ng-show="contactusForm.$submitted || contactusForm.contactpref.$touched" class="help-block">
+												<span ng-show="contactusForm.contactpref.$error.required"><spring:message code="validation.field.required" /></span>
+											</div>								
+										</div>
+									</div>
+			
+									<div class="form-group has-feedback" id="form-group-email" ng-class="getValidationState(contactusForm, 'email')" ng-show="contactus.contactpref=='email'">
+										<div class="col-xs-12">
+											<label class="control-label" for="email"><spring:message code="pages.contactus.messages.email" />:</label>
+										</div>
+										<div class="col-xs-12">
+											<spring:message code="pages.contactus.messages.email_field" var="emailPlaceholder" />
+											<input id="email" name="email" type="email" class="form-control" autocomplete="email" placeholder="${emailPlaceholder}" ng-model="contactus.email" ng-required="contactus.contactpref=='email'" ng-attr-aria-describedby="{{contactusForm.email.describedby}}" />
+											<span class="glyphicon form-control-feedback" ng-class="getGlyphState(contactusForm, 'email')" aria-hidden="true"><jsp:text></jsp:text></span>
+											<div ng-show="contactusForm.$submitted || contactusForm.email.$touched" class="help-block">
+												<span ng-show="contactusForm.email.$error.required"><spring:message code="validation.field.required" /></span>
+												<span ng-show="contactusForm.email.$error.email"><spring:message code="validation.field.notvalid" /></span>
+											</div>
+										</div>
+									</div>
+			
+									<div class="form-group has-feedback" id="form-group-phone" ng-class="getValidationState(contactusForm, 'phone')" ng-show="contactus.contactpref=='phone'">
+										<div class="col-xs-12">
+											<label class="control-label" for="phone"><spring:message code="pages.contactus.messages.phone" />:</label>
+										</div>
+										<div class="col-xs-12">
+											<spring:message code="pages.contactus.messages.phone_field" var="phonePlaceholder" />
+											<input id="phone" name="phone" type="tel" class="form-control" autocomplete="tel" placeholder="${phonePlaceholder}" ng-required="contactus.contactpref=='phone'" ng-model="contactus.phone" ng-pattern="'\\+?[-0-9 ]+'" ng-attr-aria-describedby="{{contactusForm.phone.describedby}}"/>
+											<span class="glyphicon form-control-feedback" ng-class="getGlyphState(contactusForm, 'phone')" aria-hidden="true"><jsp:text></jsp:text></span>
+											<div ng-show="contactusForm.$submitted || contactusForm.phone.$touched" class="help-block">
+												<span ng-show="contactusForm.phone.$error.required"><spring:message code="validation.field.required" /></span>
+												<span ng-show="contactusForm.phone.$error.pattern"><spring:message code="validation.field.notvalid" /></span>
+											</div>
+										</div>
+									</div>
+			
+									<div class="form-group" id="form-group-message" ng-class="getValidationState(contactusForm, 'message')">
+										<div class="col-xs-12">
+											<label id="message.label" class="control-label ng-hide" for="message"><spring:message code="pages.contactus.messages.message" />:</label>
+											<spring:message code="pages.contactus.messages.message_field" var="messagePlaceholder" />
+											<textarea id="message" name="message" class="form-control" rows="3" aria-labelledby="message.label" placeholder="${messagePlaceholder}" required="required" ng-model="contactus.message"><jsp:text></jsp:text></textarea>
+											<div ng-show="contactusForm.$submitted || contactusForm.message.$touched" class="help-block">
+												<span ng-show="contactusForm.message.$error.required"><spring:message code="validation.field.required" /></span>
+											</div>
+										</div>
+									</div>
+			
+									<!-- TODO: global validation messages -->
+									<div class="form-group">
+										<div class="col-xs-12 text-center">
+											<button type="submit" class="btn btn-default btn-block" ng-click="save(contactusForm, contactus)"><spring:message code="pages.contactus.messages.submit"/></button>
+										</div>
+									</div>
+								</form>
+	
+							</div>
+						</div>	
+						
+						<!-- Thank you form -->
+						<div class="panel panel-default" ng-show="formSubmitted">
+							<div class="panel-heading">
+								<spring:message code="pages.contactus.messages.thankyouheading"/>
+							</div>
+							<div class="panel-body">
+								<p><spring:message code="pages.contactus.messages.thankyoucontent"/></p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</sec:authorize>
+			
+			<!-- Authenticated contact us should rely on the account preferences -->
+			<sec:authorize access="isAuthenticated()">
+				<p>TODO: already have contact info</p>
+			</sec:authorize>
+		</div>
+
+		<jsp:directive.include file="../fragments/body-footer.jspx" />
+	</body>
+</html>

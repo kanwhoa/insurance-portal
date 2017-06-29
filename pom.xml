@@ -1,0 +1,248 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>uk.org.kano.insurance-portal</groupId>
+	<artifactId>insurance-portal-parent</artifactId>
+	<version>1.0</version>
+	<packaging>pom</packaging>
+	<name>Insruance Portal Example</name>
+	<description>A sample insurance portal to demonstrate a few key topics such as social login, microservices and disconnected frontends</description>
+	<url>https://github.com/kanwhoa/insurance-portal</url>
+
+	<scm>
+		<connection>scm:git:git@github.com:kanwhoa/insurance-portal.git</connection>
+		<developerConnection>scm:git:git@github.com:kanwhoa/insurance-portal.git</developerConnection>
+		<url>https://github.com/kanwhoa/insurance-portal</url>
+	</scm>
+	<issueManagement>
+		<url>https://github.com/kanwhoa/insurance-portal/issues</url>
+		<system>GitHub Issues</system>
+	</issueManagement>
+	
+	<licenses>
+		<license>
+			<name>Apache License, Version 2.0</name>
+			<url>https://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<source.version>1.7</source.version>
+		<target.version>1.7</target.version>
+		<javaee.version>6.0</javaee.version>
+
+		<spring.version>4.3.8.RELEASE</spring.version>
+		<spring.security.version>4.2.2.RELEASE</spring.security.version>
+		<spring.platform.version>Brussels-SR2</spring.platform.version>
+		<kie.version>7.0.0.CR3</kie.version>
+		<jboss.version>6.4.9.GA</jboss.version>
+
+		<maven.compiler.version>3.6.1</maven.compiler.version>
+		<maven.surefire.version>2.20</maven.surefire.version>
+		<wildfly.version>1.2.0.Alpha4</wildfly.version>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>projectlocal</id>
+			<name>Project Local Packages</name>
+			<url>${project.baseUri}../lib</url>
+		</repository>
+		<repository>
+			<id>spring-snapshots</id>
+			<url>http://repo.spring.io/libs-snapshot</url>
+			<snapshots><enabled>true</enabled></snapshots>
+		</repository>
+		<repository>
+			<id>jboss-ga-repository</id>
+			<name>JBoss GA packages</name>
+			<url>http://maven.repository.redhat.com/techpreview/all</url>
+		</repository>
+		<repository>
+			<id>JBoss</id>
+			<name>JBoss support packages</name>
+			<url>https://repository.jboss.org/</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>JBoss</id>
+			<name>JBoss support packages</name>
+			<url>https://repository.jboss.org/</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-framework-bom</artifactId>
+				<version>${spring.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-bom</artifactId>
+				<version>${spring.security.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>io.spring.platform</groupId>
+				<artifactId>platform-bom</artifactId>
+				<version>${spring.platform.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.kie</groupId>
+				<artifactId>kie-platform-bom</artifactId>
+				<version>${kie.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>org.jboss.bom</groupId>
+				<artifactId>eap6-supported-artifacts</artifactId>
+				<version>${jboss.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+	<build>
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-compiler-plugin</artifactId>
+					<version>${maven.compiler.version}</version>
+					<configuration>
+						<source>${source.version}</source>
+						<target>${target.version}</target>
+						<showDeprecation>true</showDeprecation>
+						<showWarnings>true</showWarnings>
+						<!--<optimize>true</optimize> -->
+						<compilerArgs>
+							<arg>-Xlint:all</arg>
+						</compilerArgs>
+						<debug>true</debug>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-surefire-plugin</artifactId>
+					<version>${maven.surefire.version}</version>
+					<configuration>
+						<systemPropertyVariables>
+							<java.util.logging.config.file>
+								${project.build.testOutputDirectory}/logging.properties
+							</java.util.logging.config.file>
+							<spring.profiles.active>unittest</spring.profiles.active>
+						</systemPropertyVariables>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.wildfly.plugins</groupId>
+					<artifactId>wildfly-maven-plugin</artifactId>
+					<version>${wildfly.version}</version>
+					<configuration>
+						<skip>true</skip>
+						<hostname>127.0.0.1</hostname>
+						<port>9990</port>
+						<username>timh</username>
+						<password>Fred-688</password>
+					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.kie</groupId>
+					<artifactId>kie-maven-plugin</artifactId>
+					<version>${kie.version}</version>
+					<extensions>true</extensions>
+					<dependencies>
+						<dependency>
+							<groupId>org.drools</groupId>
+							<artifactId>drools-core</artifactId>
+							<version>${kie.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.drools</groupId>
+							<artifactId>drools-decisiontables</artifactId>
+							<version>${kie.version}</version>
+						</dependency>
+						<dependency>
+							<groupId>org.drools</groupId>
+							<artifactId>drools-compiler</artifactId>
+							<version>${kie.version}</version>
+						</dependency>
+					</dependencies>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+	</build>
+
+<!--
+	<profiles>
+		<profile>
+			<id>glassfish-embedded</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<dependencies>
+				<dependency>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>com.h2database</groupId>
+					<artifactId>h2</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.junit</groupId>
+					<artifactId>arquillian-junit-container</artifactId>
+					<scope>test</scope>
+				</dependency>
+				<dependency>
+					<groupId>org.jboss.arquillian.container</groupId>
+					<artifactId>arquillian-glassfish-embedded-3.1</artifactId>
+					<version>1.0.0.CR4</version>
+					<scope>test</scope>
+				</dependency>
+
+				<dependency>
+					<groupId>org.glassfish.main.extras</groupId>
+					<artifactId>glassfish-embedded-all</artifactId>
+					<version>3.1.2.2</version>
+					<scope>provided</scope>
+				</dependency>	
+			</dependencies>
+			<build>
+				<testResources>
+					<testResource>
+						<directory>src/test/resources</directory>
+					</testResource>
+					<testResource>
+						<directory>src/test/resources-glassfish-embedded</directory>
+					</testResource>
+				</testResources>
+			</build>
+		</profile>
+	</profiles>
+	-->
+
+	<modules>
+		<module>insurance-portal-test</module>
+		<module>insurance-portal-model</module>
+		<module>insurance-portal-rules</module>
+		<module>insurance-portal-app</module>
+		<module>insurance-portal-ear</module>
+	</modules>
+</project>

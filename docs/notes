@@ -1,0 +1,29 @@
+For distributed, just chain the logins together then bounce back to the 
+original URL
+e.g.
+http://www.site.com/user/register
+http://www.site.com/auth/facebook
+ ... Facebook login cycle
+ if all okay...
+http://services.site.com/auth/facebook
+ ... Facebook login cycle
+ if all okay...
+http://www.site.com/ (logged in)
+
+
+reasons why data is separate from content
+ - bandwidth of content reduced
+ - CDN (could have the same name, but have a proxy hit)
+ - REST calls are tiny
+ - may have regulatory reasons
+
+
+Key problem is that we have to go through the auth URL in the browser
+since it cannot work through XmlHttp/AJAX
+
+Social connect on the feedback page is dumb. Should just offer service
+over those channels.
+
+References:
+https://www.petrikainulainen.net/spring-social-tutorial/
+JPA wikibooks

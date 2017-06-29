@@ -1,0 +1,28 @@
+package uk.org.kano.insuranceportal.rules.product
+dialect "mvel"
+
+import java.util.Date
+import java.util.GregorianCalendar
+
+import uk.org.kano.insuranceportal.model.domain.ProductIllustration
+
+global org.slf4j.Logger logger
+global java.util.GregorianCalendar now
+
+/*
+ * Calculate the insured age. This ia a really bad implementation and it only for testing.
+ * It does not respect months in a year or leap years or timezones or any real business meaning.
+ */
+rule "Generic Calculate Insured Age"
+	salience 0
+when
+	pi: ProductIllustration(dateOfBirth != null && insuredAge == null)
+then
+	modify (pi) {
+		insuredAge = new Integer((int)Math.round(
+			new Date(
+				(now.getTime().getTime() - pi.getDateOfBirth().normalize().toGregorianCalendar().getTime().getTime())
+			).getTime() / 31536000000L
+		));
+	}
+end

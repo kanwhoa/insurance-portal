@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+    Copyright 2016 Tim Hurman
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+   
+        http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ -->
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<comment>English</comment>
+	<entry key="common.messages.gotocontent">Goto content</entry>
+	
+	<entry key="pages.index.messages.title">Home</entry>
+	<entry key="pages.index.messages.loggedin">Logged in!</entry>
+	<entry key="pages.index.messages.loggedout">Logged out</entry>
+	<entry key="pages.index.messages.products">Our products</entry>
+
+	<entry key="pages.login.messages.title">Login</entry>
+	<entry key="pages.login.messages.submit">Log In</entry>
+	<entry key="pages.login.messages.username">Please enter your username</entry>
+	<entry key="pages.login.messages.password">Please enter your password</entry>
+	<entry key="pages.login.messages.username_field">Username</entry>
+	<entry key="pages.login.messages.password_field">Password</entry>
+	<entry key="pages.login.messages.signin">Sign in using one of the methods below</entry>
+	<entry key="pages.login.messages.local_signin">or sign in using your account</entry>
+	<entry key="pages.login.messages.no_account">Don't have an account yet?</entry>
+	<entry key="pages.login.errors.bad_credentials">Invalid username or password</entry>
+	<entry key="pages.login.errors.logged_out">Logged out</entry>
+	
+	<entry key="pages.logout.messages.title">Logout</entry>	
+	
+	<entry key="pages.user.register.messages.title">Register</entry>
+	<entry key="pages.user.register.messages.register_info">Please enter and confirm your account details</entry>
+	<entry key="pages.user.register.messages.username">Please enter your username</entry>
+	<entry key="pages.user.register.messages.username_field">Username</entry>
+	<entry key="pages.user.register.messages.name">What should we call you</entry>
+	<entry key="pages.user.register.messages.name_field">Name</entry>
+	<entry key="pages.user.register.messages.email">How should we contact you</entry>
+	<entry key="pages.user.register.messages.email_field">Email</entry>
+	<entry key="pages.user.register.messages.password1">Please enter a new password</entry>
+	<entry key="pages.user.register.messages.password1_field">Password</entry>
+	<entry key="pages.user.register.messages.password2">Please repeat your new password</entry>
+	<entry key="pages.user.register.messages.password2_field">Repeat password</entry>
+	<entry key="pages.user.register.messages.submit">Register</entry>
+	
+	<entry key="pages.user.bind.messages.title">Product Registration</entry>
+	<entry key="pages.user.bind.messages.info">Please fill in the form to register your policy</entry>
+	<entry key="pages.user.bind.messages.givenname">Please enter your given name</entry>
+	<entry key="pages.user.bind.messages.givenname_field">E.g. Tom</entry>
+	<entry key="pages.user.bind.messages.familyname">Please enter your family name</entry>
+	<entry key="pages.user.bind.messages.familyname_field">E.g. Brown</entry>
+	<entry key="pages.user.bind.messages.dateofbirth">Please your date of birth</entry>
+	<entry key="pages.user.bind.messages.dateofbirth_field">yyyy-mm-dd</entry>
+	<entry key="pages.user.bind.messages.policyid">Please your policy number</entry>
+	<entry key="pages.user.bind.messages.policyid_field">A123456</entry>
+	<entry key="pages.user.bind.messages.policystartdate">Please your policy start date</entry>
+	<entry key="pages.user.bind.messages.policystartdate_field">yyyy-mm-dd</entry>	
+	<entry key="pages.user.bind.messages.submit">Register</entry>
+	<entry key="pages.user.bind.messages.failure_body">The information above is not correct. Please call our hotline for help.</entry>
+	<entry key="pages.user.bind.messages.success_header">Product registered</entry>
+	<entry key="pages.user.bind.messages.success_body">Congratulations. You have successfully registered your product. Please go to the home page to explore your purchase.</entry>
+
+	<entry key="pages.contactus.messages.title">Contact Us</entry>
+	<entry key="pages.contactus.messages.heading">Please enter your contact information below</entry>
+	<entry key="pages.contactus.messages.thankyouheading">Thank you for your request</entry>
+	<entry key="pages.contactus.messages.thankyoucontent">You message has been received and we'll be in touch soon.</entry>
+	<entry key="pages.contactus.messages.name">What should we call you</entry>
+	<entry key="pages.contactus.messages.name_field">Name</entry>
+	<entry key="pages.contactus.messages.contactpref">How should we contact you</entry>
+	<entry key="pages.contactus.messages.contactpref_field">Choose</entry>
+	<entry key="pages.contactus.messages.contactpref.phone">Phone</entry>
+	<entry key="pages.contactus.messages.contactpref.email">Email</entry>
+	<entry key="pages.contactus.messages.manualfill">or contact us online</entry>
+	<entry key="pages.contactus.messages.email">What is your email</entry>
+	<entry key="pages.contactus.messages.email_field">Email</entry>
+	<entry key="pages.contactus.messages.phone">What is your phone</entry>
+	<entry key="pages.contactus.messages.phone_field">Phone</entry>
+	<entry key="pages.contactus.messages.message_field">Please tell us how we can help</entry>
+	<entry key="pages.contactus.messages.submit">Submit</entry>
+
+	<entry key="pages.business.mypolicies.messages.title">My Policies</entry>
+	<entry key="pages.business.mypolicies.messages.heading">This is the list of policies you have access to.</entry>
+
+	<entry key="pages.business.myprofile.messages.title">My Profile</entry>
+	<entry key="pages.business.myprofile.messages.heading">This your information</entry>
+
+	<entry key="pages.error.general.messages.title">Unknown error</entry>
+	<entry key="pages.error.404.messages.title">Page not found</entry>
+	
+	<!-- Validator messages -->
+	<entry key="validation.username.usernameexists">Username already taken</entry>
+	<entry key="validation.email.invalid">Provide a valid email address</entry>	
+	<entry key="validation.password.empty">Must provide a password</entry>	
+	<entry key="validation.password.notequal">Passwords not equal</entry>
+	<entry key="validation.password.tooweak">Password must contains one upper, one lower, one punctuation character and be at least 8 characters long</entry>
+	
+	<entry key="validation.field.required">This is required</entry>
+	<entry key="validation.field.notvalid">This isn't valid</entry>
+	<entry key="validation.field.valid">This is valid</entry>
+	
+	<!-- Social login prompts -->	
+	<entry key="social.contact.facebook">Contact us on Facebook</entry>
+	<entry key="social.signin.facebook">Sign in with Facebook</entry>
+	<entry key="social.signin.google">Sign in with Google</entry>
+	
+</properties>

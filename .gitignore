@@ -28,5 +28,11 @@ hs_err_pid*
 **/node_modules/
 
 # Editor files
-**/.sw*
+**/*.swp
+**/.DS_Store
+**/.classpath
+**/.project
+**/.settings/
 
+# Phonegap working directory
+insurance-portal-frontend/phonegap

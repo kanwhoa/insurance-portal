@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<kmodule
+	xmlns="http://jboss.org/kie/6.0.0/kmodule"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	
+	<kbase name="product_pricing_base" scope="singleton" packages="uk.org.kano.insuranceportal.rules.product" eventProcessingMode="cloud">
+		<ksession name="product_pricing_session" scope="prototype" type="stateless"/>
+	</kbase>
+</kmodule>

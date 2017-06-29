@@ -1,0 +1,116 @@
+/**
+ * Module imports
+ */
+@charset "UTF-8";
+@import "bootstrap-sass";
+@import "bootstrap-sass/assets/stylesheets/bootstrap/_theme.scss";
+@import "font-awesome";
+@import "angularjs-slider/dist/rzslider.scss";
+
+/**
+ * PhoneGap example SCSS file
+ */
+* {
+	-webkit-tap-highlight-color: rgba(0,0,0,0);
+}
+
+body {
+    /* prevent callout to copy image, etc when tap to hold */
+    -webkit-touch-callout: none;
+    /* prevent webkit from resizing text to fit */
+    -webkit-text-size-adjust: none;
+    /* prevent copy paste, to allow, change 'none' to 'text' */
+    -webkit-user-select: none;
+}
+
+/**
+ * Application CSS
+ */
+
+/* Navigation */
+.navbar-collapse.in {
+	overflow-y: hidden;
+}
+
+/* Form related */
+.form-group.no-animate {
+	-webkit-transition: none !important;
+	transition: 0s none !important;
+	animation: 0s none !important;
+}
+
+.form-divider {
+	position: relative;
+	top: 0;
+	left: 0;
+	height: 20px;
+
+	hr {
+		margin-top: 10px;
+		margin-bottom: 0;
+		width: 100%;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+
+	&>div {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		text-align: center;
+	
+		&>span {
+			padding-left: 5px;
+			padding-right: 5px;
+			background-color: white;
+		}
+	}
+}
+
+.form-group textarea {
+	resize: vertical;
+}
+
+.control-label .mandatory {
+	color: #a94442;
+}
+
+/* Social buttons */
+.btn-social{
+	position: relative;
+	padding-left: 44px;
+	text-align: left;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+
+	// TODO: check if the child select is needed
+	&>:first-child {
+		position: absolute;
+		left: 0;
+		top: 0;
+		bottom: 0;
+		width: 32px;
+		line-height: 34px;
+		font-size: 1.6em;
+		text-align: center;
+		border-right: 1px solid rgba(0,0,0,0.2);
+	}
+}
+
+.btn-facebook, .btn-facebook:hover, .btn-facebook:active,
+.bt-facebook:focus, .bt-facebook:visited {
+	color: #fff;
+	background-color: #3b5998;
+	border-color: rgba(0,0,0,0.2)
+}
+
+/* Accessibility */
+#gotocontent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}

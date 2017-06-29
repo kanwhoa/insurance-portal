@@ -1,0 +1,54 @@
+/**
+ * Application CSS
+ */
+/* Form additions */
+.form-group.no-animate {
+	-webkit-transition: none !important;
+	transition: 0s none !important;
+	animation: 0s none !important;
+}
+
+.form-divider {
+	position: relative;
+	top: 0;
+	left: 0;
+	height: 20px;	
+}
+.form-divider hr {
+	margin-top: 10px;
+	margin-bottom: 0;
+	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+.form-divider>div {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	text-align: center;
+}
+.form-divider>div>span {
+	padding-left: 5px;
+	padding-right: 5px;
+	background-color: white;
+}
+
+
+/* Social buttons */
+.btn-social{position:relative;padding-left:44px;text-align:left;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.btn-social>:first-child{position:absolute;left:0;top:0;bottom:0;width:32px;line-height:34px;font-size:1.6em;text-align:center;border-right:1px solid rgba(0,0,0,0.2)}
+.btn-facebook,.btn-facebook:hover,.btn-facebook:active,.bt-facebook:focus,.bt-facebook:visited{color:#fff;background-color:#3b5998;border-color:rgba(0,0,0,0.2)}
+
+/* Simple fixups */
+.form-group textarea {
+	resize: vertical;
+}
+
+/* Accessibility */
+#gotocontent {
+	position: absolute;
+	top: 0;
+	left: 0;
+	z-index: -1;
+}

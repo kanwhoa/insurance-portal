@@ -1,0 +1,32 @@
+<html
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:form="http://www.springframework.org/tags/form"
+  xmlns:sec="http://www.springframework.org/security/tags"
+  ng-app="user">
+
+	<spring:message code="pages.business.mypolicies.messages.title" var="pageTitle" />
+	<jsp:directive.include file="fragments/header.jspx" />
+	
+	<body>
+		<jsp:directive.include file="fragments/body-header.jspx" />
+	
+		<div class="page-header">
+			<h1>${pageTitle}</h1>
+		</div>
+		
+		<div class="container" ng-controller="mypolicies">
+			<div class="panel panel-default ng-hide" ng-show="pageLoaded">
+
+				<div class="panel-body" uib-collapse="!dataLoaded">
+					<h2><spring:message code="pages.business.mypolicies.messages.heading"/></h2>
+
+					<pre>{{policies | json}}</pre>
+				</div>	
+			</div>
+		</div>
+
+		<jsp:directive.include file="fragments/body-footer.jspx" />
+	</body>
+</html>

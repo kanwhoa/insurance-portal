@@ -1,0 +1,23 @@
+jdbc:h2:mem:test;DB_CLOSE_DELAY=-1
+
+
+Start server:
+java -cp /tool/apps/wildfly-10.0.0.Final/modules/system/layers/base/com/h2database/h2/main/h2-1.3.173.jar org.h2.tools.Server -baseDir /tmp/h2
+
+Connect URL:
+jdbc:h2:tcp://localhost/social
+
+liquibase standard init:
+MREPO="${HOME}/.m2/repository" java -jar \
+  "${MREPO}/org/liquibase/liquibase-core/3.4.2/liquibase-core-3.4.2.jar" \
+  --changeLogFile="uk/org/kano/insuranceportal/dbchangelog.xml" \
+  --classpath="facebook-login-ear/target/facebook-login-ear-1.0.ear:${MREPO}/com/h2database/h2/1.4.192/h2-1.4.192.jar" \
+  --driver="org.h2.Driver" \
+  --url="jdbc:h2:tcp://localhost/social" \
+  --username="admin" --password="admin" \
+  update
+
+// Setup some user roles quickly without binding
+insert into userspersonids (userid, personid)
+ select id, 'ABC123' from users;
+

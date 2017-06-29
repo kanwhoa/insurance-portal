@@ -1,0 +1,62 @@
+<html
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:form="http://www.springframework.org/tags/form"
+  xmlns:sec="http://www.springframework.org/security/tags"
+  ng-app="user">
+
+	<spring:message code="pages.index.messages.title" var="pageTitle" />
+	<jsp:directive.include file="fragments/header.jspx" />
+	
+	<body>
+		<jsp:directive.include file="fragments/body-header.jspx" />
+	
+		<div class="page-header">
+			<h1>${pageTitle}</h1>
+		</div>
+		
+		<div class="container" ng-controller="home">
+			<div class="panel panel-default ng-hide" ng-show="pageLoaded">
+
+				<div class="panel-body" uib-collapse="!loggedIn">
+					<h2><spring:message code="pages.index.messages.loggedin"/></h2>
+
+					<p>Congratulations, you're logged in. Here is some information about you:</p>
+					<pre>{{user | json}}</pre>
+
+					<p ng-show="!user.emailConfirmed">
+						Please check your inbox for your email confirmation.
+					</p>					
+					<p ng-show="user.emailConfirmed &amp;&amp; user.personIds.length == 0">
+						It doesn't look like you own any products yet, would you like to <a href="user/bind">register one?</a>
+					</p>
+					<p ng-show="user.emailConfirmed &amp;&amp; user.personIds.length &gt; 0">
+						It looks like you have some products. We believe you are:
+						<ul>
+							<li ng-repeat="personId in user.personIds">{{personId}}</li>
+						</ul>
+					</p>
+				</div>
+	
+				<div class="panel-body" uib-collapse="loggedIn">
+					<h2><spring:message code="pages.index.messages.loggedout"/></h2>
+	
+					<p>It looks like you're not logged in yet. Do you want to try?</p>
+				</div>
+			</div>
+		</div>
+		
+		<div class="container">
+			<div class="panel panel-default">
+				<div class="panel-body">
+					<h2><spring:message code="pages.index.messages.products"/></h2>
+					<p>While you're deciding, why not take a look at some of our products?</p>
+				</div>
+			</div>
+		</div>
+		
+
+		<jsp:directive.include file="fragments/body-footer.jspx" />
+	</body>
+</html>

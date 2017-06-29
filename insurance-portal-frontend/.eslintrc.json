@@ -1,0 +1,25 @@
+{
+	"extends": "eslint:recommended",
+	"parserOptions": {
+		"ecmaVersion": 5
+	},
+	"rules": {
+		"linebreak-style": ["error", "unix"],
+		"quotes": ["error", "single"],
+		"semi": ["error", "always"],
+
+		"comma-dangle": ["error", "never"],
+		"no-cond-assign": ["error", "always"],
+
+		// This causes problems on the include JS
+		"no-unused-vars": "off",
+		// Turn this on when we fix the 'require' feature
+		"no-undef": "off",
+		// Turn off console debugging while testing
+		"no-console": "off",
+
+		"eqeqeq": "off",
+		"curly": "off"
+	}
+}
+

@@ -1,0 +1,156 @@
+<# Form container #>
+<% macro form(formName, autocomplete='on') %>
+<# TODO: create a proper ID #>
+<form id="<$ formName|setController $>Form" name="<$ formName $>Form" ng-controller="<$ formName $>" class="form-horizontal" autocomplete="<$ autocomplete $>" novalidate>
+	<$ caller() $>
+</form>
+<% endmacro %>
+
+<# Standard text box #>
+<% macro input(name, options) %>
+<form-input ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" options="<$ options if options else name+'Options' $>"></form-input>
+<% endmacro %>
+
+<# Date input #>
+<% macro date(name, options) %>
+<form-date ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" options="<$ options if options else name+'Options' $>"></form-date>
+<% endmacro %>
+
+<% macro range(name, options) %>
+<form-range ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" options="<$ options if options else name+'Options' $>"></form-range>
+<% endmacro %>
+
+<# Radio button input #>
+<% macro radio(name, options) %>
+<form-radio ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" options="<$ options if options else name+'Options' $>"></form-radio>
+<% endmacro %>
+
+<# Buttons #>
+<% macro button(name, action='$log.info') %>
+<form-button ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" action="<$ action $>(<$ 'Form'|getController $>, '<$ name $>', event)" state-disabled="<$ ('Form.'+name)|getController $>.$disabled"></form-button>
+<% endmacro %>
+
+<# A Label #>
+<% macro label(name, options) %>
+<form-label ng-model="<$ ('.'+name)|getController $>" form="<$ 'Form'|getController $>" name="<$ name $>" options="<$ options if options else name+'Options' $>"></form-label>
+<% endmacro %>
+
+
+<% macro errorhelper() %>
+<# FIXME: this block is taking space when not active #>
+<div class="help-block" ng-show="(form.$submitted || form[name].$touched) && ((form[name].$error | keyLength) > 0)" ng-messages="form[name].$error" role="alert">
+	<div ng-messages-include="formErrorMessages"></div>
+</div>
+<div class="help-block" ng-show="(!form.$submitted && !form[name].$touched) || (0 == (form[name].$error | keyLength))"><span>&nbsp;</span></div>
+<% endmacro %>
+
+<# The raw form elements to include onto a page #>
+<% macro formElements() %>
+
+<# Input boxes #>
+<# transclude of additional error messages #>
+<script type="text/ng-template" id="formBasicInput">
+	<div class="form-group has-feedback" id="form-group-{{ id }}" ng-class="bs.getValidationState(form, name)">
+		<div class="col-xs-12" ng-if="options.label">
+			<label class="control-label" for="input-{{ id }}">{{ options.label }}</label>
+		</div>
+		<div class="col-xs-12">
+			<input id="input-{{ id }}" name="{{ name }}" type="{{ (undefined!==options.type?options.type:'text') }}" placeholder="{{ options.placeholder }}" class="form-control" autocomplete="{{ options.autocomplete }}" ng-model="val" ng-required="options.required" ng-pattern="options.pattern" ng-attr-aria-describedby="{{ bs.getAriaState(form, name, options) }}" />
+			<span class="glyphicon form-control-feedback" ng-class="bs.getGlyphState(form, name, options)" aria-hidden="true"></span>
+			<% call errorhelper() %><% endcall %>
+		</div>
+	</div>
+</script>
+
+<# Date boxes #>
+<script type="text/ng-template" id="formDateInput">
+	<div class="form-group has-feedback" id="form-group-{{ id }}" ng-class="bs.getValidationState(form, name)">
+		<div class="col-xs-12" ng-if="options.label">
+			<label class="control-label" for="input-{{ id }}">{{ options.label }}</label>
+		</div>
+		<div class="col-xs-12">
+			<# TODO: min/max dates etc #>
+			<p class="input-group">
+				<input id="input-{{ id }}" name="{{ name }}" type="text" inputmode="numeric" placeholder="{{ options.placeholder }}" class="form-control" uib-datepicker-popup="{{ dateFormat }}" is-open="opened" autocomplete="{{ options.autocomplete }}" ng-model="val" ng-required="options.required" ng-attr-aria-describedby="{{ bs.getAriaState(form, name, options) }}" />
+				<span class="input-group-btn">
+					<button type="button" class="btn btn-default" ng-click="togglePopup()"><i class="glyphicon glyphicon-calendar"></i></button>
+				</span>
+			</p>
+
+			<# TODO: errors #>
+		</div>
+	</div>
+</script>
+
+<# Ranges #>
+<script type="text/ng-template" id="formRangeInput">
+	<div class="form-group has-feedback" id="form-group-{{ id }}" ng-class="bs.getValidationState(form, name)">
+		<div class="col-xs-12" ng-if="options.label">
+			<label class="control-label" for="input-{{ id }}">{{ options.label }}</label>
+		</div>
+		<div class="col-xs-12">
+			<# FIXME: default values not showing #>
+			<rzslider id="input-{{ id }}" name="{{ name }}" rz-slider-model="val" rz-slider-options="options"></rzslider>
+			<# TODO: errors & messages #>
+		</div>
+	</div>
+</script>
+
+<# Radio buttons #>
+<script type="text/ng-template" id="formRadioButton">
+	<div class="form-group has-feedback" id="form-group-{{ id }}" ng-class="bs.getValidationState(form, name)">
+		<div class="col-xs-12" ng-if="options.label">
+			<label class="control-label" for="input-{{ id }}">{{ options.label }}</label>
+		</div>
+		<div class="col-xs-12">
+			<div class="btn-group btn-group-justified">
+				<label class="btn btn-primary" ng-model="$parent.val" ng-repeat="m in options.members" uib-btn-radio="m.value" uib-uncheckable="!$parent.options.required">{{ m.name }}</label>
+			</div>
+			<input id="input-{{ id }}" name="{{ name }}" type="text" placeholder="{{ options.placeholder }}" class="ng-hide form-control" autocomplete="{{ options.autocomplete }}" ng-model="val" ng-required="options.required" />
+
+			<% call errorhelper() %><% endcall %>
+		</div>
+	</div>
+</script>
+
+<# Buttons #>
+<script type="text/ng-template" id="formBasicButton">
+	<div class="form-group has-feedback" id="form-group-{{ id }}">
+		<div class="col-xs-12 text-center">
+			<button id="input-{{ id }}" name="{{ name }}" type="{{ options.type }}" class="btn btn-default btn-block" ng-model="val" ng-click="action({event: $event})" ng-disabled="options.disabled">{{ options.label }}</button>
+		</div>
+		<div class="col-xs-12 text-center">
+			<div ng-if="type == 'submit'" ng-show="form.$submitted && form.$invalid" class="help-block">
+				<!-- TODO: global errors -->
+			</div>
+		</div>
+	</div>
+</script>
+
+<# Labels #>
+<script type="text/ng-template" id="formLabel">
+	<div class="form-group has-feedback" id="form-group-{{ id }}">
+		<div class="col-xs-12" ng-if="options.label">
+			<label class="control-label">{{ options.label }}</label>
+		</div>
+		<div class="col-xs-12 text-center">
+			<div id="input-{{ id }}"><span ng-bind="val"></span></div>
+		</div>
+	</div>
+</script>
+
+<# Error messages #>
+<script type="text/ng-template" id="formErrorMessages">
+	<span ng-message="required">Please enter a value</span>
+	<span ng-message="maxlength">This value is too long</span>
+	<span ng-message="pattern">This is not the correct format</span>
+	<span ng-message="email">This is not a valid email</span>
+</script>
+
+<div class="ng-hide">
+	<# Aria links #>
+	<span id="has-success-desc" class="sr-only">Correct</span>
+	<span id="has-error-desc" class="sr-only">Invalid</span>
+	<span id="has-mandatory-desc" class="sr-only">Mandatory</span>
+</div>
+<% endmacro %>

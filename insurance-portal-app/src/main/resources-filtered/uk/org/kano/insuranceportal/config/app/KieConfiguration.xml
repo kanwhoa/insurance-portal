@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans
+	xmlns="http://www.springframework.org/schema/beans"
+	xmlns:kie="http://drools.org/schema/kie-spring"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://drools.org/schema/kie-spring http://drools.org/schema/kie-spring.xsd
+	">
+
+	<kie:import />
+	<!-- 	
+	<kie:import releaseId-ref="product_pricing_module" enableScanner="true" scannerInterval="100000"/>
+	<kie:releaseId id="product_pricing_module" groupId="${project.groupId}" artifactId="insurance-portal-rules" version="${project.version}"/>
+	-->
+</beans>

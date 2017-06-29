@@ -1,0 +1,32 @@
+<html
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  xmlns:c="http://java.sun.com/jsp/jstl/core"
+  xmlns:form="http://www.springframework.org/tags/form"
+  xmlns:sec="http://www.springframework.org/security/tags"
+  ng-app="registration">
+
+	<spring:message code="pages.error.general.messages.title" var="pageTitle" />
+	<jsp:directive.include file="../fragments/header.jspx" />
+	
+	<body>
+		<jsp:directive.include file="../fragments/body-header.jspx" />
+	
+		<div class="page-header">
+			<h1>${pageTitle}</h1>
+		</div>
+		
+		<div class="container panel panel-default">
+			<div class="panel-body">
+					<div class="row">
+						<div class="col-xs-12">
+							<p>Exception: ${exception.message}</p>
+							<c:forEach items="${exception.stackTrace}" var="ste"><pre>${ste}</pre></c:forEach>
+						</div>
+					</div>
+			</div>
+		</div>			
+		
+		<jsp:directive.include file="../fragments/body-footer.jspx" />
+	</body>
+</html>

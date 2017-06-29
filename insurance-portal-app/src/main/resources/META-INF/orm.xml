@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<entity-mappings
+  xmlns="http://xmlns.jcp.org/xml/ns/persistence/orm"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence/orm http://xmlns.jcp.org/xml/ns/persistence/orm_2_1.xsd"
+  version="2.1">
+
+	<!-- Mapping for the main user class, collapse everything to the the WAR User class -->
+	<mapped-superclass
+		class="org.springframework.security.core.userdetails.User"
+		access="FIELD" metadata-complete="true">
+		<attributes>
+			<basic name="username" optional="false">
+				<column unique="true" />
+			</basic>
+			<!-- Must set optional because the first write does so without a password -->
+			<basic name="password" optional="true"></basic>
+			<basic name="accountNonExpired" optional="false"></basic>
+			<basic name="accountNonLocked" optional="false"></basic>
+			<basic name="credentialsNonExpired" optional="false"></basic>
+			<basic name="enabled" optional="false"></basic>
+			<many-to-many name="authorities" fetch="EAGER" target-entity="uk.org.kano.insuranceportal.model.internal.RoleGrantedAuthority">
+				<join-table name="USERROLE">
+					<join-column name="USERID" referenced-column-name="ID" />
+					<inverse-join-column name="ROLEID" referenced-column-name="ID" />
+				</join-table>
+			</many-to-many>
+		</attributes>
+	</mapped-superclass>
+	
+	<!-- Mapping for the social user class -->
+	<mapped-superclass
+		class="org.springframework.social.security.SocialUser"
+		access="FIELD" metadata-complete="true">
+	</mapped-superclass>
+
+	<!-- Role mappings -->
+	<mapped-superclass
+		class="org.springframework.security.core.GrantedAuthority"
+		access="FIELD" metadata-complete="true">
+	</mapped-superclass>
+	
+</entity-mappings>

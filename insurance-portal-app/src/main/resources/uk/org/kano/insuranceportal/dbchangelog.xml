@@ -1,0 +1,284 @@
+<!--
+    Copyright 2016 Tim Hurman
+   
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+   
+        http://www.apache.org/licenses/LICENSE-2.0
+   
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+ -->
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xsi:schemaLocation="
+    http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd"
+  >
+	
+	<!-- Default changeset -->
+	<changeSet id="1" author="timh">
+		<!-- The social connection SQL, see org/springframework/social/connect/jdbc/JdbcUsersConnectionRepository.sql -->
+		<createTable tableName="UserConnection">
+			<column name="userId" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="providerId" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="providerUserId" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="rank" type="int">
+				<constraints nullable="false"/>
+			</column>
+			<column name="displayName" type="varchar(255)" />
+			<column name="profileUrl" type="varchar(512)" />
+			<column name="imageUrl" type="varchar(512)" />
+			<column name="accessToken" type="varchar(512)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="secret" type="varchar(512)" />
+			<column name="refreshToken" type="varchar(512)" />
+			<column name="expireTime" type="bigint" />
+		</createTable>
+		<addPrimaryKey constraintName="pk_UserConnection" tableName="UserConnection" columnNames="userId, providerId, providerUserId"/>
+		<createIndex indexName="idx_UserConnectionRank" tableName="UserConnection" unique="true">
+			<column name="userId"/>
+			<column name="providerId"/>
+			<column name="rank"/>
+		</createIndex>
+		
+		<!-- The application roles -->
+		<createTable tableName="ROLES">
+			<column name="ID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="role" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_ROLES" tableName="ROLES" columnNames="id"/>
+				
+		<!-- Load the basic roles -->
+		<insert tableName="ROLES">
+			<column name="ID" value="1"/>
+			<column name="role" value="USER"/>
+		</insert>
+		<insert tableName="ROLES">
+			<column name="ID" value="2"/>
+			<column name="role" value="AGENT"/>
+		</insert>
+		<insert tableName="ROLES">
+			<column name="ID" value="3"/>
+			<column name="role" value="SERVICE_STAFF"/>
+		</insert>
+ 	
+		<!-- The Users table -->
+		<createTable tableName="USERS">
+			<column name="ID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="version" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="username" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="password" type="varchar(255)"/>
+			<column name="passwordChanged" type="timestamp"/>
+			<column name="name" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="email" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="emailConfirmed" type="boolean" defaultValueBoolean="false">
+				<constraints nullable="false"/>
+			</column>
+			<column name="accountNonExpired" type="boolean" defaultValueBoolean="true">
+				<constraints nullable="false"/>
+			</column>
+			<column name="accountNonLocked" type="boolean" defaultValueBoolean="true">
+				<constraints nullable="false"/>
+			</column>
+			<column name="credentialsNonExpired" type="boolean" defaultValueBoolean="true">
+				<constraints nullable="false"/>
+			</column>
+			<column name="enabled" type="boolean" defaultValueBoolean="true">
+				<constraints nullable="false"/>
+			</column>
+			<column name="created" type="timestamp">
+				<constraints nullable="false"/>
+			</column>
+			<column name="lastLogin" type="timestamp"/>
+			<column name="modified" type="timestamp">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_USERS" tableName="USERS" columnNames="id"/>
+		<createSequence sequenceName="seq_USERS" startValue="100000" cycle="false" incrementBy="37" />
+		
+		<!-- Links to the Enterprise key -->
+		<createTable tableName="USERSPERSONIDS">
+			<column name="USERID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="personId" type="varchar(16)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addUniqueConstraint tableName="USERSPERSONIDS" columnNames="personId"/>
+		<addForeignKeyConstraint constraintName="fk_USERSPERSONIDS_USERS"
+		  baseTableName="USERSPERSONIDS" baseColumnNames="USERID"
+		  referencedTableName="USERS" referencedColumnNames="ID"
+		  onDelete="CASCADE" onUpdate="CASCADE"/>
+ 
+		<!-- User role link -->
+		<createTable tableName="USERROLE">
+			<column name="USERID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="ROLEID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_USERROLE" tableName="USERROLE" columnNames="USERID, ROLEID"/>
+		<addForeignKeyConstraint constraintName="fk_userrole_user"
+		  baseTableName="USERROLE" baseColumnNames="USERID"
+		  referencedTableName="USERS" referencedColumnNames="ID"
+		  onDelete="CASCADE" onUpdate="CASCADE"/>
+		<addForeignKeyConstraint constraintName="fk_userrole_role"
+		  baseTableName="USERROLE" baseColumnNames="ROLEID"
+		  referencedTableName="ROLES" referencedColumnNames="ID"
+		  onDelete="RESTRICT" onUpdate="RESTRICT"/>
+
+		<!-- "Business" tables - this is a simple dataset showing a typical insurance policy -->
+		<createTable tableName="Policy">
+			<column name="ID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="policyId" type="varchar(16)">
+				<constraints nullable="false"/>
+			</column>
+			<!-- Policies are effective on a date at 00:00:00 -->
+			<column name="startDate" type="date">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_Policy" tableName="Policy" columnNames="ID"/>
+		<addUniqueConstraint tableName="Policy" columnNames="policyId"/>
+		<insert tableName="Policy">
+			<column name="ID" value="1"/>
+			<column name="policyId" value="X123000"/>
+			<column name="startDate" valueDate="2001-02-03"/>
+		</insert>
+		<insert tableName="Policy">
+			<column name="ID" value="2"/>
+			<column name="policyId" value="X123001"/>
+			<column name="startDate" valueDate="2002-03-04"/>
+		</insert>
+		<insert tableName="Policy">
+			<column name="ID" value="3"/>
+			<column name="policyId" value="X123002"/>
+			<column name="startDate" valueDate="2002-04-05"/>
+		</insert>
+		
+		<createTable tableName="Person">
+			<column name="ID" type="bigint">
+				<constraints nullable="false"/>
+			</column>
+			<column name="personId" type="varchar(16)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="familyName" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="givenName" type="varchar(255)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="dateOfBirth" type="date">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_Person" tableName="Person" columnNames="ID"/>
+		<addUniqueConstraint tableName="Person" columnNames="personId"/>
+		<insert tableName="Person">
+			<column name="ID" value="1"/>
+			<column name="personId" value="ABC123"/>
+			<column name="familyName" value="Brown"/>
+			<column name="givenName" value="Tom"/>
+			<column name="dateOfBirth" value="2001-01-02"/>
+		</insert>
+		<insert tableName="Person">
+			<column name="ID" value="2"/>
+			<column name="personId" value="ABC124"/>
+			<column name="familyName" value="Smith"/>
+			<column name="givenName" value="Peter"/>
+			<column name="dateOfBirth" value="2001-01-02"/>
+		</insert>
+		<insert tableName="Person">
+			<column name="ID" value="3"/>
+			<column name="personId" value="ABC125"/>
+			<column name="familyName" value="Chan"/>
+			<column name="givenName" value="Julie"/>
+			<column name="dateOfBirth" value="2001-01-02"/>
+		</insert>
+	
+		<createTable tableName="PersonPolicyRole">
+			<column name="roleType" type="varchar(2)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="personId" type="varchar(16)">
+				<constraints nullable="false"/>
+			</column>
+			<column name="policyId" type="varchar(16)">
+				<constraints nullable="false"/>
+			</column>
+		</createTable>
+		<addPrimaryKey constraintName="pk_PersonPolicyRole" tableName="PersonPolicyRole" columnNames="personId, policyId"/>
+		<addUniqueConstraint tableName="PersonPolicyRole" columnNames="policyId, roleType"/>
+		<addForeignKeyConstraint constraintName="fk_PersonPolicyRole_Person"
+		  baseTableName="PersonPolicyRole" baseColumnNames="personId"
+		  referencedTableName="Person" referencedColumnNames="personId"
+		  onDelete="CASCADE" onUpdate="CASCADE"/>
+		<addForeignKeyConstraint constraintName="fk_PersonPolicyRole_Policy"
+		  baseTableName="PersonPolicyRole" baseColumnNames="policyId"
+		  referencedTableName="Policy" referencedColumnNames="policyId"
+		  onDelete="CASCADE" onUpdate="CASCADE"/>
+		<insert tableName="PersonPolicyRole">
+			<column name="roleType" value="PH"/>
+			<column name="personId" value="ABC123"/>
+			<column name="policyId" value="X123000"/>
+		</insert>
+		<insert tableName="PersonPolicyRole">
+			<column name="roleType" value="PH"/>
+			<column name="personId" value="ABC124"/>
+			<column name="policyId" value="X123001"/>
+		</insert>
+		<insert tableName="PersonPolicyRole">
+			<column name="roleType" value="PH"/>
+			<column name="personId" value="ABC124"/>
+			<column name="policyId" value="X123002"/>
+		</insert>
+		<insert tableName="PersonPolicyRole">
+			<column name="roleType" value="IN"/>
+			<column name="personId" value="ABC125"/>
+			<column name="policyId" value="X123002"/>
+		</insert>
+	</changeSet>
+	
+	<!-- Changeset to clear all data for development -->
+	<changeSet id="99" author="timh" runAlways="true" context="removeUsers">
+		<!-- Clean out any existing users and user connections on load -->
+		<delete tableName="UserConnection"/>
+		<delete tableName="USERS"/>
+	</changeSet>
+	
+</databaseChangeLog>

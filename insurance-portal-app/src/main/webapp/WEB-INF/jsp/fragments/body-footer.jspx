@@ -1,0 +1,16 @@
+<jsp:root
+  xmlns:jsp="http://java.sun.com/JSP/Page"
+  xmlns:spring="http://www.springframework.org/tags"
+  version="2.2">
+	
+	<!-- Default ARIA messages -->
+	<span id="has-success-desc" class="sr-only"><spring:message code="validation.field.valid" /></span>
+	<span id="has-error-desc" class="sr-only"><spring:message code="validation.field.notvalid" /></span>
+		
+	<!-- TODO: http://blog.scalyr.com/2013/10/angularjs-1200ms-to-35ms/ -->
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js" integrity="sha256-6Sr0HqNgUf/p88g6vsl87CrAnNqiOWhjlY6LS8jeWHA=" crossorigin="anonymous" defer="defer"><jsp:text></jsp:text></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular-animate.min.js" integrity="sha256-QbW7ReHd+kSZ+oECLxJqwMAEfSS7nQFBlF76hdWOTBA=" crossorigin="anonymous" defer="defer"><jsp:text></jsp:text></script>
+	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/2.1.4/ui-bootstrap-tpls.min.js" integrity="sha256-DWLVzeUtLHY5CAj79DaY695VpDZEb8a7xecQwz/dky4=" crossorigin="anonymous" defer="defer"><jsp:text></jsp:text></script>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/static/app/app.js" defer="defer"><jsp:text></jsp:text></script>
+</jsp:root>
+	
